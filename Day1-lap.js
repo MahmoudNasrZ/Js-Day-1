@@ -291,26 +291,94 @@
 // and if it is too low, return "Your guess is too low!". You should stop the user from guessing if
 // the amount of guesses they have made is greater than the initial amount passed to the outer function.
 
-function guessingGame(amount) {
-  let answer = Math.floor(Math.random() * 11);
-  let guesses = 0;
-  return function (guess) {
-    guesses++;
-    if (guess === answer) {
-      console.log("You Win");
-    } else if (guesses >= amount) {
-      console.log("GameOver Try again Later");
-    } else if (guess <= answer) {
-      console.log("You are Too High");
+// function guessingGame(amount) {
+//   let answer = Math.floor(Math.random() * 11);
+//   let guesses = 0;
+//   return function (guess) {
+//     guesses++;
+//     if (guess === answer) {
+//       console.log("You Win");
+//     } else if (guesses >= amount) {
+//       console.log("GameOver Try again Later");
+//     } else if (guess <= answer) {
+//       console.log("You are Too High");
+//     } else {
+//       console.log("You are Too low");
+//     }
+//   };
+// }
+
+// const game = guessingGame(5);
+
+// console.log(game(11));
+// console.log(game(11));
+// console.log(game(11));
+// console.log(game(11));
+// Day 4 Lap ----------------------------------------------------------------------------------------------------------------------------------------------------------
+// var slider = document.querySelector('.slider')
+// var images=["compman.gif","1rain_world.png","2.png","2rain_world.png","black_hole_by_kurzgesagt.png","1331316.png","861724.png","668125.png"]
+// var loop
+//  var i=0
+//  slider.addEventListener('mouseenter', function () {
+//     loop = setInterval(function () {
+//       console.log(`${i}`);
+//       slider.src = `./${images[i]}`;
+//       i++;
+//       if (i === images.length) {
+//         i = 0; 
+//       }
+//     }, 500);
+//   });
+  
+//     slider.addEventListener('mouseleave', function (e) {
+//             clearInterval(loop)
+//              i=0
+//             slider.src = `./${images[i]}`;
+
+//            })
+var select = document.getElementById('select');
+var detailsTable = document.querySelector('#detailsTable');
+var nameCell = document.querySelector('#nameCell');
+var numberCell = document.querySelector('#ageCell');
+var emailCell = document.querySelector('#emailCell');
+var phoneCell = document.querySelector('#phoneCell');
+
+var value=fetch("db.json")
+  .then(response => {
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return response.json(); 
+  })
+  .then(data => {
+    // console.log("Fetched data:", data);
+    options(data);
+  })
+  .catch(error => console.error("Fetch error:", error));
+
+function options(data) {
+  let select = document.getElementById('select'); 
+  for (let i = 0; i < data.length; i++) {
+    // console.log(data[i].name)
+    let option = document.createElement("option");
+    option.value = i; 
+    option.textContent = data[i].name;
+    select.appendChild(option);
+  }
+  select.addEventListener('change', function() {
+    if (select.value === "") {
+        detailsTable.style.display = 'none';
     } else {
-      console.log("You are Too low");
+        var value = select.value
+        console.log(data);
+        
+    
+        nameCell.textContent = data[value].name
+        addressCell.textContent = data[value].address;
+        emailCell.textContent = data[value].email;;
+        phoneCell.textContent =  data[value].phone ;
+        numberCell.textContent = data[value].numberrange;
+    
+        detailsTable.style.display = 'table';
     }
-  };
+    });
 }
 
-const game = guessingGame(5);
-
-console.log(game(11));
-console.log(game(11));
-console.log(game(11));
-console.log(game(11));
